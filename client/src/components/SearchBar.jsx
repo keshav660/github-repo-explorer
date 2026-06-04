@@ -4,7 +4,7 @@ function SearchBar({ onSearch }) {
   const [username, setUsername] = useState("");
 
   const handleSubmit = (event) => {
-    event.preventDefault();  
+    event.preventDefault();
     if (!username.trim()) {
       return;
     }
@@ -13,10 +13,7 @@ function SearchBar({ onSearch }) {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col sm:flex-row gap-4"
-    >
+    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
       <input
         type="text"
         placeholder="Enter GitHub username"

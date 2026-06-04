@@ -10,7 +10,7 @@ const fetchGithubUser = async (username) => {
   }
 
   console.log(`Cache miss for ${username}`);
-  
+
   try {
     const [userResponse, reposResponse] = await Promise.all([
       axios.get(`https://api.github.com/users/${username}`),

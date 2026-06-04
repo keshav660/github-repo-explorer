@@ -1,9 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const {
-  getGithubUser,
-} = require("../controllers/github.controller");
+const { getGithubUser } = require("../controllers/github.controller");
 
 router.get("/:username", getGithubUser);
 

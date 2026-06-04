@@ -75,8 +75,7 @@ function Home() {
       {recentSearches.length > 0 && (
         <div className="mt-4">
           <h3 className="font-semibold mb-2">Recent Searches</h3>
-          
-         
+
           <div className="flex flex-wrap gap-2">
             {recentSearches.map((item) => (
               <button
@@ -87,9 +86,8 @@ function Home() {
                 {item}
               </button>
             ))}
-            
           </div>
-           {!profile && !loading && !error && (
+          {!profile && !loading && !error && (
             <div className="mt-10 text-center">
               <p className="text-gray-500">
                 Search for a GitHub username to get started.
