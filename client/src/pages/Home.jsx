@@ -1,6 +1,7 @@
 import SearchBar from "../components/SearchBar";
 import ProfileCard from "../components/ProfileCard";
 import RepoCard from "../components/RepoCard";
+import RepoList from "../components/RepoList";
 const demoProfile = {
   avatar_url: "https://avatars.githubusercontent.com/u/108389536?s=400&u=192478f371a67d04bbbcd207cd843aaee1157c5e&v=4",
   name: "keshav bhatt",
@@ -9,13 +10,32 @@ const demoProfile = {
   following: 4,
   public_repos: 40,
 };
-const demoRepo = {
-  name: "react",
-  description: "A JavaScript library for building user interfaces",
-  language: "JavaScript",
-  stargazers_count: 235000,
-  updated_at: "2026-06-01",
-};
+const demoRepos = [
+  {
+    id: 1,
+    name: "react",
+    description: "Frontend library",
+    language: "JavaScript",
+    stargazers_count: 235000,
+    updated_at: "2026-06-01",
+  },
+  {
+    id: 2,
+    name: "next.js",
+    description: "React framework",
+    language: "JavaScript",
+    stargazers_count: 130000,
+    updated_at: "2026-06-02",
+  },
+  {
+    id: 3,
+    name: "tailwindcss",
+    description: "Utility-first CSS framework",
+    language: "TypeScript",
+    stargazers_count: 90000,
+    updated_at: "2026-06-03",
+  },
+];
 function Home() {
   const handleSearch = (username) => {
     console.log("Searching:", username);
