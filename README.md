@@ -96,6 +96,23 @@ Implemented backend error handling for:
 
 The backend converts GitHub API errors into predictable and user-friendly responses before sending them to the frontend.
 
+
+### Caching Strategy
+
+Implemented in-memory caching using node-cache.
+
+Behaviour:
+
+* First request fetches data from GitHub API.
+* Response is stored in cache for 60 seconds.
+* Subsequent requests for the same username within 60 seconds are served directly from cache.
+
+Benefits:
+
+* Reduced GitHub API requests
+* Better performance
+* Helps avoid GitHub rate limits
+
 ## Running Locally
 
 Coming soon.............

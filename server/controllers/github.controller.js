@@ -29,3 +29,25 @@ const getGithubUser = async (req, res) => {
 module.exports = {
   getGithubUser,
 };
+
+const {
+  fetchGithubUserData,
+} = require("../services/github.service");
+
+const getGithubUser = async (req, res) => {
+  try {
+    const { username } = req.params;
+
+    const data = await fetchGithubUserData(username);
+
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+module.exports = {
+  getGithubUser,
+};
