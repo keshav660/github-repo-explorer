@@ -1,6 +1,13 @@
 const axios = require("axios");
 const cache = require("../cache/cache");
 
+const githubApi = axios.create({
+  baseURL: "https://api.github.com",
+  headers: {
+    Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+  },
+});
+
 const fetchGithubUser = async (username) => {
   const cachedData = cache.get(username);
 
@@ -13,8 +20,8 @@ const fetchGithubUser = async (username) => {
 
   try {
     const [userResponse, reposResponse] = await Promise.all([
-      axios.get(`https://api.github.com/users/${username}`),
-      axios.get(`https://api.github.com/users/${username}/repos`),
+      githubApi.get(`/users/${username}`),
+      githubApi.get(`/users/${username}/repos`),
     ]);
 
     const result = {
