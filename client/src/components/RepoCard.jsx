@@ -1,3 +1,13 @@
+const formatDate = (date) => {
+  return new Date(date).toLocaleDateString(
+    "en-US",
+    {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    }
+  );
+};
 function RepoCard({ repo }) {
   return (
     <div className="border rounded-xl p-5 shadow-sm">
@@ -21,7 +31,7 @@ function RepoCard({ repo }) {
         </span>
 
         <span>
-          Updated: {repo.updated_at}
+          Updated: {formatDate(repo.updated_at)}
         </span>
 
       </div>

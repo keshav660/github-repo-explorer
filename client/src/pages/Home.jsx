@@ -34,23 +34,17 @@ function Home() {
       setRepos(data.repositories);
 
       setRecentSearches((prev) => {
-        const updated = [
-          username,
-          ...prev.filter((item) => item !== username),
-        ];
+        const updated = [username, ...prev.filter((item) => item !== username)];
 
         localStorage.setItem(
           "recentSearches",
-          JSON.stringify(updated.slice(0, 5))
+          JSON.stringify(updated.slice(0, 5)),
         );
 
         return updated.slice(0, 5);
       });
     } catch (error) {
-      setError(
-        error.response?.data?.message ||
-          "Something went wrong"
-      );
+      setError(error.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -59,24 +53,15 @@ function Home() {
   const sortedRepos = [...repos];
 
   if (sortBy === "name") {
-    sortedRepos.sort((a, b) =>
-      a.name.localeCompare(b.name)
-    );
+    sortedRepos.sort((a, b) => a.name.localeCompare(b.name));
   }
 
   if (sortBy === "stars") {
-    sortedRepos.sort(
-      (a, b) =>
-        b.stargazers_count - a.stargazers_count
-    );
+    sortedRepos.sort((a, b) => b.stargazers_count - a.stargazers_count);
   }
 
   if (sortBy === "updated") {
-    sortedRepos.sort(
-      (a, b) =>
-        new Date(b.updated_at) -
-        new Date(a.updated_at)
-    );
+    sortedRepos.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
   }
 
   return (
@@ -89,10 +74,9 @@ function Home() {
 
       {recentSearches.length > 0 && (
         <div className="mt-4">
-          <h3 className="font-semibold mb-2">
-            Recent Searches
-          </h3>
-
+          <h3 className="font-semibold mb-2">Recent Searches</h3>
+          
+         
           <div className="flex flex-wrap gap-2">
             {recentSearches.map((item) => (
               <button
@@ -103,43 +87,40 @@ function Home() {
                 {item}
               </button>
             ))}
+            
           </div>
+           {!profile && !loading && !error && (
+            <div className="mt-10 text-center">
+              <p className="text-gray-500">
+                Search for a GitHub username to get started.
+              </p>
+            </div>
+          )}
         </div>
       )}
 
       {loading && <Loading />}
 
-      {error && (
-        <ErrorMessage message={error} />
-      )}
+      {error && <ErrorMessage message={error} />}
 
-      {profile && (
-        <ProfileCard profile={profile} />
-      )}
+      {profile && <ProfileCard profile={profile} />}
 
       {repos.length > 0 && (
         <>
           <div className="flex items-center gap-3 mt-6 mb-4">
-            <label
-              htmlFor="sort"
-              className="font-medium"
-            >
+            <label htmlFor="sort" className="font-medium">
               Sort By:
             </label>
 
             <select
               id="sort"
               value={sortBy}
-              onChange={(event) =>
-                setSortBy(event.target.value)
-              }
+              onChange={(event) => setSortBy(event.target.value)}
               className="border rounded-md px-3 py-2"
             >
               <option value="name">Name</option>
               <option value="stars">Stars</option>
-              <option value="updated">
-                Last Updated
-              </option>
+              <option value="updated">Last Updated</option>
             </select>
           </div>
 
