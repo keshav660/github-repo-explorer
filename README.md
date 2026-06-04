@@ -61,18 +61,30 @@ client/
 * Basic Tailwind utility classes and responsive layouts
 
 ---
+### Repository Management
 
-## Upcoming Work
+Implemented:
 
-* Repository list UI
 * Repository card component
-* Sorting functionality
-* Backend API setup
-* GitHub API integration
-* Caching implementation
-* Deployment
+* Repository list component
+* Dynamic rendering using array mapping
+* Repository sorting controls
 
----
+Learning Notes:
+
+Implemented repository sorting at the page level instead of inside presentational components to keep responsibilities separated and maintain predictable data flow.
+
+### Repository Sorting
+
+Implemented sorting support for:
+
+* Repository Name
+* Star Count
+* Last Updated Date
+
+Implementation Notes:
+
+Sorting is handled in the Home page component since it owns repository data. A shallow copy of the repository array is created before sorting to avoid mutating the original dataset.
 
 ## Running Locally
 
