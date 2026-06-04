@@ -1,70 +1,76 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SearchBar from "../components/SearchBar";
 import ProfileCard from "../components/ProfileCard";
 import RepoList from "../components/RepoList";
-
-const demoProfile = {
-  avatar_url:
-    "https://avatars.githubusercontent.com/u/108389536?s=400&u=192478f371a67d04bbbcd207cd843aaee1157c5e&v=4",
-  name: "keshav bhatt",
-  bio: "Full stack developer | Open source enthusiast | Tech blogger",
-  followers: 25000,
-  following: 4,
-  public_repos: 40,
-};
-
-const demoRepos = [
-  {
-    id: 1,
-    name: "react",
-    description: "Frontend library",
-    language: "JavaScript",
-    stargazers_count: 235000,
-    updated_at: "2026-06-01",
-  },
-  {
-    id: 2,
-    name: "next.js",
-    description: "React framework",
-    language: "JavaScript",
-    stargazers_count: 130000,
-    updated_at: "2026-06-02",
-  },
-  {
-    id: 3,
-    name: "tailwindcss",
-    description: "Utility-first CSS framework",
-    language: "TypeScript",
-    stargazers_count: 90000,
-    updated_at: "2026-06-03",
-  },
-];
+import Loading from "../components/Loading";
+import ErrorMessage from "../components/ErrorMessage";
+import { fetchGithubUser } from "../services/githubApi";
 
 function Home() {
   const [sortBy, setSortBy] = useState("name");
 
-  const handleSearch = (username) => {
-    console.log("Searching:", username);
+  const [profile, setProfile] = useState(null);
+  const [repos, setRepos] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [recentSearches, setRecentSearches] = useState([]);
+
+  useEffect(() => {
+    const savedSearches = localStorage.getItem("recentSearches");
+
+    if (savedSearches) {
+      setRecentSearches(JSON.parse(savedSearches));
+    }
+  }, []);
+
+  const handleSearch = async (username) => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const data = await fetchGithubUser(username);
+
+      setProfile(data.profile);
+      setRepos(data.repositories);
+
+      setRecentSearches((prev) => {
+        const updated = [
+          username,
+          ...prev.filter((item) => item !== username),
+        ];
+
+        localStorage.setItem(
+          "recentSearches",
+          JSON.stringify(updated.slice(0, 5))
+        );
+
+        return updated.slice(0, 5);
+      });
+    } catch (error) {
+      setError(
+        error.response?.data?.message ||
+          "Something went wrong"
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // Copy array before sorting
-  const sortedRepos = [...demoRepos];
+  const sortedRepos = [...repos];
 
-  // Sort using Name
   if (sortBy === "name") {
     sortedRepos.sort((a, b) =>
       a.name.localeCompare(b.name)
     );
   }
 
-  // sort by Stars
   if (sortBy === "stars") {
     sortedRepos.sort(
-      (a, b) => b.stargazers_count - a.stargazers_count
+      (a, b) =>
+        b.stargazers_count - a.stargazers_count
     );
   }
 
-  // Sort by Updated Date
   if (sortBy === "updated") {
     sortedRepos.sort(
       (a, b) =>
@@ -81,28 +87,65 @@ function Home() {
 
       <SearchBar onSearch={handleSearch} />
 
-      <ProfileCard profile={demoProfile} />
+      {recentSearches.length > 0 && (
+        <div className="mt-4">
+          <h3 className="font-semibold mb-2">
+            Recent Searches
+          </h3>
 
-      <div className="flex items-center gap-3 mt-6 mb-4">
-        <label htmlFor="sort" className="font-medium">
-          Sort By:
-        </label>
+          <div className="flex flex-wrap gap-2">
+            {recentSearches.map((item) => (
+              <button
+                key={item}
+                onClick={() => handleSearch(item)}
+                className="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm transition"
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
-        <select
-          id="sort"
-          value={sortBy}
-          onChange={(event) =>
-            setSortBy(event.target.value)
-          }
-          className="border rounded-md px-3 py-2"
-        >
-          <option value="name">Name</option>
-          <option value="stars">Stars</option>
-          <option value="updated">Last Updated</option>
-        </select>
-      </div>
+      {loading && <Loading />}
 
-      <RepoList repos={sortedRepos} />
+      {error && (
+        <ErrorMessage message={error} />
+      )}
+
+      {profile && (
+        <ProfileCard profile={profile} />
+      )}
+
+      {repos.length > 0 && (
+        <>
+          <div className="flex items-center gap-3 mt-6 mb-4">
+            <label
+              htmlFor="sort"
+              className="font-medium"
+            >
+              Sort By:
+            </label>
+
+            <select
+              id="sort"
+              value={sortBy}
+              onChange={(event) =>
+                setSortBy(event.target.value)
+              }
+              className="border rounded-md px-3 py-2"
+            >
+              <option value="name">Name</option>
+              <option value="stars">Stars</option>
+              <option value="updated">
+                Last Updated
+              </option>
+            </select>
+          </div>
+
+          <RepoList repos={sortedRepos} />
+        </>
+      )}
     </div>
   );
 }
