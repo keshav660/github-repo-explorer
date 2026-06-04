@@ -86,6 +86,16 @@ Implementation Notes:
 
 Sorting is handled in the Home page component since it owns repository data. A shallow copy of the repository array is created before sorting to avoid mutating the original dataset.
 
+### Error Handling
+
+Implemented backend error handling for:
+
+* Invalid GitHub usernames
+* GitHub API rate limiting
+* Unexpected API failures
+
+The backend converts GitHub API errors into predictable and user-friendly responses before sending them to the frontend.
+
 ## Running Locally
 
 Coming soon.............
