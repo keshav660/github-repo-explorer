@@ -1,132 +1,211 @@
 # GitHub Repo Explorer
 
-## Project Overview
+A full-stack web application that allows users to search GitHub profiles and explore public repositories. The application uses a custom Node.js backend as a proxy layer between the frontend and the GitHub API, along with server-side caching to improve performance and reduce unnecessary API requests.
 
+## Live Demo
 
-The application allows users to search for any GitHub username and view the user's public profile information along with their public repositories. The frontend communicates only with a custom Node.js backend, which acts as a proxy between the application and the GitHub API.
+Frontend: https://github-repo-explorer-brown.vercel.app/
 
-Current Status:................
-
----
-
-## Features Completed
-
-### Frontend Setup
-
-* React application initialized using Vite
-* Tailwind CSS configured
-* Project folder structure created
-
-### Search Functionality (UI)
-
-* SearchBar component created
-* Controlled input using React state
-* Username passed from SearchBar to parent component using callback props
-
-### Profile Section (UI)
-
-* ProfileCard component created
-* Temporary mock profile data displayed (for testing purpose)
-* Responsive card layout implemented
+Repository: https://github.com/keshav660/github-repo-explorer
 
 ---
 
-## Folder Structure
+## Features
 
-client/
-├── src/
-│   ├── components/
-│   │   ├── SearchBar.jsx
-│   │   └── ProfileCard.jsx
-│   ├── pages/
-│   │   └── Home.jsx
-│   └── services/
+### User Search
 
----
+* Search any public GitHub username
+* Fetch profile information from GitHub
 
-## Development Notes
+### Profile Information
 
-### Day 1
+* Avatar
+* Name
+* Bio
+* Followers
+* Following
+* Public Repository Count
 
-* Created React project using Vite
-* Configured Tailwind CSS
-* Built SearchBar component
-* Implemented parent-child component communication
-* Built ProfileCard component with mock data
-
-### Learnings
-
-* How controlled inputs work in React
-* How callback props allow child-to-parent communication
-* Basic Tailwind utility classes and responsive layouts
-
----
-### Repository Management
-
-Implemented:
-
-* Repository card component
-* Repository list component
-* Dynamic rendering using array mapping
-* Repository sorting controls
-
-Learning Notes:
-
-Implemented repository sorting at the page level instead of inside presentational components to keep responsibilities separated and maintain predictable data flow.
-
-### Repository Sorting
-
-Implemented sorting support for:
+### Repository Explorer
 
 * Repository Name
+* Description
+* Primary Language
 * Star Count
 * Last Updated Date
 
-Implementation Notes:
+### Repository Sorting
 
-Sorting is handled in the Home page component since it owns repository data. A shallow copy of the repository array is created before sorting to avoid mutating the original dataset.
+Repositories can be sorted by:
+
+* Name
+* Star Count
+* Last Updated Date
+
+### Recent Searches
+
+* Stores recent searches using localStorage
+* Quickly search previously viewed profiles
 
 ### Error Handling
 
-Implemented backend error handling for:
+* Invalid GitHub username
+* GitHub API failures
+* Rate limit handling
 
-* Invalid GitHub usernames
-* GitHub API rate limiting
-* Unexpected API failures
+### Server-side Caching
 
-The backend converts GitHub API errors into predictable and user-friendly responses before sending them to the frontend.
+* Implemented using node-cache
+* Cached responses are stored for 60 seconds
+* Reduces API requests and improves response times
 
+### Responsive Design
 
-### Caching Strategy
-
-Implemented in-memory caching using node-cache.
-
-Behaviour:
-
-* First request fetches data from GitHub API.
-* Response is stored in cache for 60 seconds.
-* Subsequent requests for the same username within 60 seconds are served directly from cache.
-
-Benefits:
-
-* Reduced GitHub API requests
-* Better performance
-* Helps avoid GitHub rate limits
-
-## Running Locally
-
-Coming soon.............
+* Mobile-friendly interface
+* Responsive layouts using Tailwind CSS
 
 ---
 
-## API Documentation
+## Tech Stack
 
-Coming soon..................
+### Frontend
+
+* React
+* Vite
+* Tailwind CSS
+* Axios
+
+### Backend
+
+* Node.js
+* Express.js
+* Axios
+* node-cache
+* dotenv
+* cors
+
+### Deployment
+
+* Frontend: Vercel
+* Backend: Render
+
+---
+
+## Project Architecture
+
+Frontend (React)
+↓
+API Service Layer
+↓
+Express Backend
+↓
+Cache Layer (node-cache)
+↓
+GitHub REST API
+
+The frontend never communicates directly with GitHub. All requests are routed through the backend, which handles caching, error management, and response formatting.
+
+---
+
+## API Endpoint
+
+GET /api/github/:username
+
+Example:
+
+/api/github/torvalds
+
+Response:
+
+{
+"profile": {},
+"repositories": []
+}
+
+---
+
+## Caching Strategy
+
+The backend checks whether data for a requested username already exists in memory.
+
+Flow:
+
+1. Request received
+2. Cache lookup
+3. Cache hit → return cached response
+4. Cache miss → fetch from GitHub API
+5. Store response for 60 seconds
+6. Return data
+
+Benefits:
+
+* Faster response times
+* Reduced GitHub API usage
+* Lower chance of hitting rate limits
+
+---
+
+## Running Locally
+
+### Clone Repository
+
+git clone https://github.com/keshav660/github-repo-explorer.git
+
+### Frontend
+
+cd client
+
+npm install
+
+npm run dev
+
+### Backend
+
+cd server
+
+npm install
+
+npm start
+
+---
+
+## Environment Variables
+
+Frontend (.env)
+
+VITE_API_URL=http://localhost:5000/api/github
+
+Backend (.env)
+
+PORT=5000
+
+---
+
+## Future Improvements
+
+* Pagination for repositories
+* Repository filtering by language
+* Dark mode support
+* Skeleton loaders
+* Search suggestions
+* Persistent caching using Redis
+
+---
+
+## Learning Outcomes
+
+This project helped me strengthen my understanding of:
+
+* React component architecture
+* State management with hooks
+* API integration
+* Backend service design
+* Error handling strategies
+* Server-side caching
+* Deployment workflows
+* Full-stack application architecture
 
 
 
-
-
-
-
-CODE WITH LOVE ❤️ _Keshav bhatt_
+### Project DEmo VIdeo : 
+<video controls src="./client/src/assets/github repo explorer.mp4" title="Github Repo Explorer"></video>
