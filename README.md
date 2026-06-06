@@ -213,3 +213,7 @@ This project helped me strengthen my understanding of:
 [![Watch Demo](https://img.youtube.com/vi/SW2RJ_epRwg/hqdefault.jpg)](https://youtu.be/SW2RJ_epRwg)
 
 Click the thumbnail above to watch the full project walkthrough.
+
+## Author
+
+Keshav Bhatt ❤️
