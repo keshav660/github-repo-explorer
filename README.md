@@ -208,4 +208,8 @@ This project helped me strengthen my understanding of:
 
 
 ### Project DEmo VIdeo : 
-<video controls src="./client/src/assets/github repo explorer.mp4" title="Github Repo Explorer"></video>
+## 🎥
+
+[![Watch Demo](https://img.youtube.com/vi/SW2RJ_epRwg/hqdefault.jpg)](https://youtu.be/SW2RJ_epRwg)
+
+Click the thumbnail above to watch the full project walkthrough.
